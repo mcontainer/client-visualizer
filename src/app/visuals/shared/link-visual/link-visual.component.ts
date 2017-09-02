@@ -1,20 +1,31 @@
-import { Component, Input } from '@angular/core';
-import { Link } from '../../../d3';
+import { Component, Input, OnInit } from '@angular/core';
+import { Link, Node } from '../../../d3';
 
 @Component({
-  selector: '[linkVisual]',
+  selector: '[link]',
   template: `
     <svg:line
         class="link"
         [ngStyle]="{'stroke-width':link.strokeWidth}"
-        [attr.x1]="link.source.x"
-        [attr.y1]="link.source.y"
-        [attr.x2]="link.target.x"
-        [attr.y2]="link.target.y"
+        [attr.x1]="source.x"
+        [attr.y1]="source.y"
+        [attr.x2]="target.x"
+        [attr.y2]="target.y"
     ></svg:line>
   `,
   styleUrls: ['./link-visual.component.css']
 })
-export class LinkVisualComponent {
-  @Input('linkVisual') link: Link;
+export class LinkVisualComponent implements OnInit {
+  @Input('link') link: Link;
+
+  source: Node;
+  target: Node;
+
+  ngOnInit(): void {
+    this.source = this.link.source instanceof Node ? this.link.source : null;
+    this.target = this.link.target instanceof Node ? this.link.target : null;
+  }
+
+
+
 }

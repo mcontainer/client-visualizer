@@ -13,6 +13,7 @@ export class Node implements d3.SimulationNodeDatum {
   id: string;
   name: string;
   linkCount = 0;
+  private _color: string;
 
   constructor(id, name) {
     this.id = id;
@@ -22,18 +23,24 @@ export class Node implements d3.SimulationNodeDatum {
   normal = () => {
     return 1;
     /*return Math.sqrt(this.linkCount / APP_CONFIG.N);*/
-  }
+  };
 
   get r() {
-    return 50 * this.normal() + 10;
+    return 30 * this.normal() + 10;
   }
 
   get fontSize() {
     return 10 + 'px';
   }
 
-  get color() {
-    const index = Math.floor(APP_CONFIG.SPECTRUM.length * this.normal());
-    return APP_CONFIG.SPECTRUM[index];
+  get color(): string {
+    // const index = Math.floor(APP_CONFIG.SPECTRUM.length * this.normal());
+    // return APP_CONFIG.SPECTRUM[index];
+    return this._color;
   }
+
+  set color(value: string) {
+    this._color = value;
+  }
+
 }

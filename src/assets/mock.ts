@@ -22,7 +22,7 @@ export const D_GRAPH_RESPONSE = {
         ],
         'ip': '10.0.0.5',
         'name': 'Client',
-        'stack': 'toto'
+        'stack': 'node'
       },
       {
         '_uid_': '0x3',
@@ -35,25 +35,25 @@ export const D_GRAPH_RESPONSE = {
         ],
         'ip': '10.0.0.6',
         'name': 'Server 1',
-        'stack': 'toto'
+        'stack': 'node'
       },
       {
         '_uid_': '0x4',
         'ip': '10.0.0.8',
         'name': 'Server 2',
-        'stack': 'toto'
+        'stack': 'node'
       },
       {
         '_uid_': '0x5',
         'ip': '10.0.1.1',
         'name': 'Server 4',
-        'stack': 'toto'
+        'stack': 'node'
       },
       {
         '_uid_': '0x6',
         'ip': '10.0.1.1',
         'name': 'Alone Man',
-        'stack': 'toto'
+        'stack': 'node'
       }
     ],
     'server_latency': {

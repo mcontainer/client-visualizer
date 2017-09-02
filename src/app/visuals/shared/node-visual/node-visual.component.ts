@@ -1,8 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Node } from '../../../d3';
 
 @Component({
-  selector: '[nodeVisual]',
+  selector: '[node]',
   template: `
     <svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
       <svg:circle
@@ -21,6 +21,9 @@ import { Node } from '../../../d3';
   `,
   styleUrls: ['./node-visual.component.css']
 })
-export class NodeVisualComponent {
-  @Input('nodeVisual') node: Node;
+export class NodeVisualComponent implements OnInit{
+  @Input('node') node: Node;
+
+  ngOnInit(): void {
+  }
 }

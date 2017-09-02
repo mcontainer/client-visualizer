@@ -14,8 +14,10 @@ import { DGraphService } from './services/dgraph.service';
 import { GraphContainerComponent } from './graph-container/graph-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { MdToolbarModule } from '@angular/material';
-import {SseService} from "./services/sse.service";
+import { MdToolbarModule, MdSidenavModule, MdCardModule } from '@angular/material';
+import {SseService} from './services/sse.service';
+import { InfoComponent } from './info/info.component';
+import {StateService} from './services/state.service';
 
 
 @NgModule({
@@ -26,6 +28,7 @@ import {SseService} from "./services/sse.service";
     ...D3_DIRECTIVES,
     GraphContainerComponent,
     ToolbarComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
@@ -33,8 +36,10 @@ import {SseService} from "./services/sse.service";
     HttpModule,
     BrowserAnimationsModule,
     MdToolbarModule,
+    MdSidenavModule,
+    MdCardModule
   ],
-  providers: [D3Service, DGraphService, SseService],
+  providers: [D3Service, DGraphService, SseService, StateService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -8,6 +8,7 @@ import {
   OnInit
 } from '@angular/core';
 import { D3Service, ForceDirectedGraph, Node } from '../../d3';
+import * as Rx from 'rxjs/Rx';
 
 @Component({
   selector: 'app-graph',
@@ -15,9 +16,11 @@ import { D3Service, ForceDirectedGraph, Node } from '../../d3';
   template: `
     <svg #svg [attr.width]="_options.width" [attr.height]="_options.height">
       <g [zoomableOf]="svg">
-        <g [linkVisual]="link" *ngFor="let link of links"></g>
-        <g [nodeVisual]="node" *ngFor="let node of nodes"
-           [draggableNode]="node" [draggableInGraph]="graph"></g>
+        <g [link]="link" *ngFor="let link of links"></g>
+        <g [node]="node" *ngFor="let node of nodes"
+           [draggableNode]="node" [draggableInGraph]="graph"
+           appClick [node]="node"
+        ></g>
       </g>
     </svg>
   `,
@@ -26,6 +29,7 @@ import { D3Service, ForceDirectedGraph, Node } from '../../d3';
 export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
+  @Input('node$') node$: Rx.Observable<Node>;
 
   graph: ForceDirectedGraph;
   _options: { width, height } = {width: 800, height: 600};
@@ -40,8 +44,16 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     /** Receiving an initialized simulated graph from our custom d3 service */
-    this.graph = this.d3Service.getForceDirectedGraph(this.nodes, this.links, this.options);
+    this.graph = D3Service.getForceDirectedGraph(this.nodes, this.links, this.options);
 
+    const alone = this.nodes.filter(x => x.id === '0x6');
+    const client = this.nodes.filter(x => x.id === '0x2');
+    this.node$.subscribe(n => {
+      this.graph.addNode(n);
+      this.graph.connectNodes(n, client[0]);
+    });
+
+    setTimeout(() => this.graph.connectNodes(alone[0], client[0]), 3000);
 
     /** Binding change detection check on each tick
      * This along with an onPush change detection strategy should enforce checking only when relevant!

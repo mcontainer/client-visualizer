@@ -1,3 +1,11 @@
 <app-toolbar></app-toolbar>
 
-<app-graph-container></app-graph-container>
+<md-sidenav-container>
+
+  <md-sidenav mode="side" [opened]="isOpen">
+    <app-info></app-info>
+  </md-sidenav>
+
+  <app-graph-container></app-graph-container>
+</md-sidenav-container>
+
