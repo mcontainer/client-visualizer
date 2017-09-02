@@ -9,7 +9,7 @@ export class SseService {
 
   public createSSE(url: string): Rx.Observable<String> {
     return Rx.Observable.create((observer) => {
-      const sse = new EventSourcePolyfill(url);
+      const sse = new EventSourcePolyfill(url, {withCredentials: true});
       sse.onmessage = event => observer.next(event.data);
       sse.onerror = error => observer.error(error);
     });

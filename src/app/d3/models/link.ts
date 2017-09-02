@@ -9,7 +9,7 @@ export class Link implements d3.SimulationLinkDatum<Node> {
   target: Node | string | number;
   strokeWidth: string | number;
 
-  constructor(source, target, strokeWidth = 1) {
+  constructor(source: string, target: string, strokeWidth = 1) {
     this.source = source;
     this.target = target;
     this.strokeWidth = strokeWidth;

@@ -14,6 +14,8 @@ export class ForceDirectedGraph {
   public fill: d3.ScaleOrdinal<string, string> = d3.scaleOrdinal(d3.schemeCategory20);
   public nodes: Node[] = [];
   public links: Link[] = [];
+  private nodeset: Set<string> = new Set();
+  private linkset: Set<string> = new Set();
 
   constructor(nodes, links, options: { width, height }) {
     this.nodes = nodes;
@@ -21,17 +23,26 @@ export class ForceDirectedGraph {
     this.initSimulation(options);
   }
 
-  connectNodes(source, target) {
-    const link = new Link(source, target, 3);
-    this.links.push(link);
-    this.simulation.alphaTarget(0.3).restart();
-    this.initLinks();
+  connectNodes(source: Node, target: Node) {
+    if (!this.linkset.has(`${source.id}${target.id}`)) {
+      this.links.push(new Link(source.id, target.id, 3));
+      this.linkset.add(`${source.id}${target.id}`);
+      this.simulation.alphaTarget(0.3).restart();
+      this.initLinks();
+    }
   }
 
   addNode(n: Node): void {
-    n.color = this.fill(n.id);
-    this.nodes.push(n);
-    this.simulation.nodes(this.nodes);
+    if (!this.exist(n.id)) {
+      n.color = this.fill(n.id);
+      this.nodes.push(n);
+      this.nodeset.add(n.id);
+      this.simulation.nodes(this.nodes);
+    }
+  }
+
+  exist(id: string): boolean {
+    return this.nodeset.has(id);
   }
 
   initNodes() {

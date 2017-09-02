@@ -13,8 +13,8 @@ export class GraphContainerComponent implements OnInit {
 
   nodes: Node[] = [];
   links: Link[] = [];
-  private nodeStream: Rx.BehaviorSubject<Node> = new Rx.BehaviorSubject(null);
-  node$: Rx.Observable<Node> = this.nodeStream.asObservable();
+  private nodeStream: Rx.Subject<[Node, Node]> = new Rx.Subject();
+  node$: Rx.Observable<[Node, Node]> = this.nodeStream.asObservable();
 
   constructor(private dGraphService: DGraphService, private sseService: SseService) {
     const dGraphResponse = dGraphService.getContent();
@@ -35,13 +35,12 @@ export class GraphContainerComponent implements OnInit {
 
   ngOnInit() {
 
-    this.nodeStream.next(new Node('0x9', 'node'));
-
     const source = this.sseService.createSSE('http://localhost:1234/streaming');
     const dGraphResponse = this.dGraphService.getContent();
     source.subscribe(x => {
       const splitted = x.split('-');
       const [src, dst] = [...splitted];
+      this.nodeStream.next([new Node(src, src), new Node(dst, dst)]);
     });
 
   }

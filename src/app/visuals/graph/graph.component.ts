@@ -29,7 +29,7 @@ import * as Rx from 'rxjs/Rx';
 export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
-  @Input('node$') node$: Rx.Observable<Node>;
+  @Input('node$') node$: Rx.Observable<[Node, Node]>;
 
   graph: ForceDirectedGraph;
   _options: { width, height } = {width: 800, height: 600};
@@ -48,9 +48,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
     const alone = this.nodes.filter(x => x.id === '0x6');
     const client = this.nodes.filter(x => x.id === '0x2');
-    this.node$.subscribe(n => {
-      this.graph.addNode(n);
-      this.graph.connectNodes(n, client[0]);
+    this
+      .node$
+      .subscribe(([n1, n2]) => {
+      this.graph.addNode(n1);
+      this.graph.addNode(n2);
+      this.graph.connectNodes(n1, n2);
     });
 
     setTimeout(() => this.graph.connectNodes(alone[0], client[0]), 3000);
