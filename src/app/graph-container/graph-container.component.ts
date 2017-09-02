@@ -3,6 +3,7 @@ import {Link, Node} from '../d3';
 import {DGraphService} from '../services/dgraph.service';
 import {SseService} from '../services/sse.service';
 import * as Rx from 'rxjs/Rx';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-graph-container',
@@ -16,7 +17,7 @@ export class GraphContainerComponent implements OnInit {
   private nodeStream: Rx.Subject<[Node, Node]> = new Rx.Subject();
   node$: Rx.Observable<[Node, Node]> = this.nodeStream.asObservable();
 
-  constructor(private dGraphService: DGraphService, private sseService: SseService) {
+  constructor(private dGraphService: DGraphService, private sseService: SseService, private snackbar: MdSnackBar) {
     const dGraphResponse = dGraphService.getContent();
 
     dGraphResponse.data.expand.forEach(node => {
@@ -41,6 +42,10 @@ export class GraphContainerComponent implements OnInit {
       const splitted = x.split('-');
       const [src, dst] = [...splitted];
       this.nodeStream.next([new Node(src, src), new Node(dst, dst)]);
+    }, () => {
+      this.snackbar.open('Unable to connect to the streaming endpoint', 'Close', {
+        duration: 2000,
+      });
     });
 
   }
