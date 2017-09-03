@@ -5,6 +5,7 @@ import {Node} from '../d3/models';
 
 interface IState {
   isOpen: boolean;
+  isLoading: boolean;
   info: Node | null;
   clusterSize: number;
 }
@@ -14,6 +15,7 @@ export class StateService {
 
   initial: IState = {
     isOpen: false,
+    isLoading: true,
     info: null,
     clusterSize: 0
   };
@@ -26,6 +28,10 @@ export class StateService {
     switch (action.type) {
       case 'OPEN':
         return {...state, isOpen: action.payload};
+      case 'LOADING':
+        return {...state, isLoading: true};
+      case 'NOT_LOADING':
+        return {...state, isLoading: false};
       case 'INFO':
         return {...state, info: action.payload};
       case 'SIZE':
@@ -45,6 +51,10 @@ export class StateService {
 
   dispatch(type: string, payload: any) {
     this.action$.next({type, payload})
+  }
+
+  dispatchWithoutPayload(type: string) {
+    this.action$.next({type});
   }
 
 

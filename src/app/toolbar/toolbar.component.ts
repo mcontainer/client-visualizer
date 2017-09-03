@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -7,10 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor() {
-  }
+  isLoading = false;
+
+  constructor(private stateService: StateService) { }
 
   ngOnInit() {
+    this.stateService.store$.subscribe(state => {
+      const { isLoading } = state;
+      this.isLoading = isLoading;
+    });
   }
 
 }

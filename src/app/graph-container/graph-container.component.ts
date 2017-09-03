@@ -4,7 +4,7 @@ import {DGraphService} from '../services/dgraph.service';
 import {SseService} from '../services/sse.service';
 import * as Rx from 'rxjs/Rx';
 import {MdSnackBar} from '@angular/material';
-import {StateService} from "../services/state.service";
+import {StateService} from '../services/state.service';
 
 @Component({
   selector: 'app-graph-container',
@@ -42,19 +42,23 @@ export class GraphContainerComponent implements OnInit {
   ngOnInit() {
 
     const source = this.sseService.createSSE('http://localhost:1234/streaming');
-    source.subscribe(graph => {
-      const nodes = graph.map(node => new Node(node.UID, node.Name));
-      this.stateService.dispatch('SIZE', nodes.length);
-      const links = graph
-        .filter(node => node['Connected'] !== null)
-        .map(node => node['Connected'].map(n => new Link(node.UID, n.UID, 3)));
-      this.nodeStream.next([nodes, links[0]]);
-    }, () => {
-      this.snackbar.open('Unable to connect to the streaming endpoint', 'Close', {
-        duration: 2000,
-      });
-    });
-
+    source
+      .map(graph => {
+        const nodes = graph.map(node => new Node(node.UID, node.Name));
+        const links = graph
+          .filter(node => node['Connected'] !== null)
+          .map(node => node['Connected'].map(n => new Link(node.UID, n.UID, 3)));
+        return [nodes, links[0]];
+      })
+      .do(data => this.stateService.dispatch('SIZE', data[0].length))
+      .subscribe(
+        (data: [Node[], Link[]]) => this.nodeStream.next(data),
+        () => {
+            this.snackbar.open('Unable to connect to the streaming endpoint', 'Close', {
+              duration: 2000,
+            });
+        }
+      );
   }
 
 }

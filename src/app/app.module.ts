@@ -14,7 +14,7 @@ import { DGraphService } from './services/dgraph.service';
 import { GraphContainerComponent } from './graph-container/graph-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { MdToolbarModule, MdSidenavModule, MdCardModule, MdSnackBarModule } from '@angular/material';
+import { MdToolbarModule, MdSidenavModule, MdCardModule, MdSnackBarModule, MdProgressBarModule } from '@angular/material';
 import {SseService} from './services/sse.service';
 import { InfoComponent } from './info/info.component';
 import {StateService} from './services/state.service';
@@ -38,7 +38,8 @@ import {StateService} from './services/state.service';
     MdToolbarModule,
     MdSidenavModule,
     MdCardModule,
-    MdSnackBarModule
+    MdSnackBarModule,
+    MdProgressBarModule
   ],
   providers: [D3Service, DGraphService, SseService, StateService],
   bootstrap: [AppComponent]
