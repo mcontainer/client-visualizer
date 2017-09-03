@@ -5,7 +5,8 @@ import {Node} from '../d3/models';
 
 interface IState {
   isOpen: boolean;
-  info: Node | null
+  info: Node | null;
+  clusterSize: number;
 }
 
 @Injectable()
@@ -13,10 +14,11 @@ export class StateService {
 
   initial: IState = {
     isOpen: false,
-    info: null
+    info: null,
+    clusterSize: 0
   };
 
-  action$: Rx.Subject<any>;
+  action$: Rx.BehaviorSubject<any>;
 
   store$: Rx.Observable<IState>;
 
@@ -26,6 +28,8 @@ export class StateService {
         return {...state, isOpen: action.payload};
       case 'INFO':
         return {...state, info: action.payload};
+      case 'SIZE':
+        return {...state, clusterSize: action.payload};
       default:
         return state;
     }

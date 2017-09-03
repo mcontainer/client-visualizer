@@ -4,6 +4,7 @@ import {DGraphService} from '../services/dgraph.service';
 import {SseService} from '../services/sse.service';
 import * as Rx from 'rxjs/Rx';
 import {MdSnackBar} from '@angular/material';
+import {StateService} from "../services/state.service";
 
 @Component({
   selector: 'app-graph-container',
@@ -14,10 +15,14 @@ export class GraphContainerComponent implements OnInit {
 
   nodes: Node[] = [];
   links: Link[] = [];
-  private nodeStream: Rx.Subject<[Node, Node]> = new Rx.Subject();
-  node$: Rx.Observable<[Node, Node]> = this.nodeStream.asObservable();
+  private nodeStream: Rx.Subject<[Node[], Link[]]> = new Rx.Subject();
+  node$: Rx.Observable<[Node[], Link[]]> = this.nodeStream.asObservable();
 
-  constructor(private dGraphService: DGraphService, private sseService: SseService, private snackbar: MdSnackBar) {
+  constructor(private dGraphService: DGraphService,
+              private sseService: SseService,
+              private snackbar: MdSnackBar,
+              private stateService: StateService
+  ) {
     const dGraphResponse = dGraphService.getContent();
 
     dGraphResponse.data.expand.forEach(node => {
@@ -37,11 +42,13 @@ export class GraphContainerComponent implements OnInit {
   ngOnInit() {
 
     const source = this.sseService.createSSE('http://localhost:1234/streaming');
-    const dGraphResponse = this.dGraphService.getContent();
-    source.subscribe(x => {
-      const splitted = x.split('-');
-      const [src, dst] = [...splitted];
-      this.nodeStream.next([new Node(src, src), new Node(dst, dst)]);
+    source.subscribe(graph => {
+      const nodes = graph.map(node => new Node(node.UID, node.Name));
+      this.stateService.dispatch('SIZE', nodes.length);
+      const links = graph
+        .filter(node => node['Connected'] !== null)
+        .map(node => node['Connected'].map(n => new Link(node.UID, n.UID, 3)));
+      this.nodeStream.next([nodes, links[0]]);
     }, () => {
       this.snackbar.open('Unable to connect to the streaming endpoint', 'Close', {
         duration: 2000,

@@ -1,0 +1,14 @@
+@import "~@angular/material/theming";
+
+
+:host {
+  color: mat-color(mat-palette($mat-grey), 700);
+}
+
+h2 {
+  text-align: left;
+}
+
+.info {
+  padding: 10px;
+}

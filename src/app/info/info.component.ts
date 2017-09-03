@@ -5,21 +5,21 @@ import { Node } from '../d3/models';
 @Component({
   selector: 'app-info',
   templateUrl: './info.component.html',
-  styleUrls: ['./info.component.css']
+  styleUrls: ['./info.component.scss']
 })
 export class InfoComponent implements OnInit {
 
   info: Node;
+  size: number;
 
   constructor(private stateService: StateService) { }
 
   ngOnInit() {
 
-    this.info = this.stateService.initial.info;
-
     this.stateService.store$.subscribe(state => {
-      const { info } = state;
+      const { info, clusterSize } = state;
       this.info = info;
+      this.size = clusterSize;
     });
 
   }

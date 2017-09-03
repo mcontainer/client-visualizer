@@ -14,8 +14,8 @@ export class ForceDirectedGraph {
   public fill: d3.ScaleOrdinal<string, string> = d3.scaleOrdinal(d3.schemeCategory20);
   public nodes: Node[] = [];
   public links: Link[] = [];
-  private nodeset: Set<string> = new Set();
-  private linkset: Set<string> = new Set();
+  private nodeset: Set<number> = new Set();
+  private linkset: Set<number> = new Set();
 
   constructor(nodes, links, options: { width, height }) {
     this.nodes = nodes;
@@ -23,10 +23,10 @@ export class ForceDirectedGraph {
     this.initSimulation(options);
   }
 
-  connectNodes(source: Node, target: Node) {
-    if (!this.linkset.has(`${source.id}${target.id}`)) {
-      this.links.push(new Link(source.id, target.id, 3));
-      this.linkset.add(`${source.id}${target.id}`);
+  connectNodes(link: Link) {
+    if (!this.linkset.has(link.id)) {
+      this.links.push(link);
+      this.linkset.add(link.id);
       this.simulation.alphaTarget(0.3).restart();
       this.initLinks();
     }
@@ -34,14 +34,14 @@ export class ForceDirectedGraph {
 
   addNode(n: Node): void {
     if (!this.exist(n.id)) {
-      n.color = this.fill(n.id);
+      n.color = this.fill(n.id.toString());
       this.nodes.push(n);
       this.nodeset.add(n.id);
       this.simulation.nodes(this.nodes);
     }
   }
 
-  exist(id: string): boolean {
+  exist(id: number): boolean {
     return this.nodeset.has(id);
   }
 
@@ -50,7 +50,7 @@ export class ForceDirectedGraph {
       throw new Error('simulation was not initialized yet');
     }
 
-    this.nodes.forEach(node => node.color = this.fill(node.id));
+    this.nodes.forEach(node => node.color = this.fill(node.id.toString()));
 
     this.simulation.nodes(this.nodes);
   }

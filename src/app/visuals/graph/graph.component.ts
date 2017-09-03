@@ -7,7 +7,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { D3Service, ForceDirectedGraph, Node } from '../../d3';
+import { D3Service, ForceDirectedGraph, Node, Link } from '../../d3';
 import * as Rx from 'rxjs/Rx';
 
 @Component({
@@ -29,7 +29,7 @@ import * as Rx from 'rxjs/Rx';
 export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
-  @Input('node$') node$: Rx.Observable<[Node, Node]>;
+  @Input('node$') node$: Rx.Observable<[Node[], Link[]]>;
 
   graph: ForceDirectedGraph;
   _options: { width, height } = {width: 800, height: 600};
@@ -45,18 +45,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     /** Receiving an initialized simulated graph from our custom d3 service */
     this.graph = D3Service.getForceDirectedGraph(this.nodes, this.links, this.options);
-
-    const alone = this.nodes.filter(x => x.id === '0x6');
-    const client = this.nodes.filter(x => x.id === '0x2');
     this
       .node$
-      .subscribe(([n1, n2]) => {
-      this.graph.addNode(n1);
-      this.graph.addNode(n2);
-      this.graph.connectNodes(n1, n2);
+      .subscribe(([nodes, links]) => {
+      nodes.forEach(node => this.graph.addNode(node));
+      links.forEach(link => this.graph.connectNodes(link));
     });
-
-    setTimeout(() => this.graph.connectNodes(alone[0], client[0]), 3000);
 
     /** Binding change detection check on each tick
      * This along with an onPush change detection strategy should enforce checking only when relevant!
@@ -75,7 +69,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   get options() {
     return this._options = {
       // FIXME: hardcoded reduction
-      width: window.innerWidth - 16,
+      width: window.innerWidth - 250 - 16,
       height: window.innerHeight - 70
     };
   }
