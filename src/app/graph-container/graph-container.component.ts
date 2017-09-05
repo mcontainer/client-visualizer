@@ -48,7 +48,7 @@ export class GraphContainerComponent implements OnInit {
         const links = graph
           .filter(node => node['Connected'] !== null)
           .map(node => node['Connected'].map(n => new Link(node.UID, n.UID, 3)));
-        return [nodes, links[0]];
+        return [nodes, [].concat.apply([], links)];
       })
       .do(data => this.stateService.dispatch('SIZE', data[0].length))
       .subscribe(
