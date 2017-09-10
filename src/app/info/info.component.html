@@ -9,9 +9,6 @@
   </md-card>
 
   <div *ngIf="info != null">
-    <md-card>
-      <h4>Node {{info.id}}</h4>
-      <p>Name: {{info.name}}</p>
-    </md-card>
+    <app-node-info [info]="info"></app-node-info>
   </div>
 </div>

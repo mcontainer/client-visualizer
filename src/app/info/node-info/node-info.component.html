@@ -1,0 +1,39 @@
+<md-card>
+  <md-card-title>Selected Node</md-card-title>
+  <div>
+    <h4>Node #{{info.id}}</h4>
+    <p>Name: {{info.name}}</p>
+  </div>
+
+  <hr/>
+
+  <md-card-actions fxLayoutAlign="center">
+    <button
+        md-mini-fab
+        color="primary"
+        [disabled]="!info.started">
+      <md-icon
+          class="md-24"
+          aria-label="Start container"
+          (click)="emitDockerEvent('start')">play_arrow</md-icon>
+    </button>
+    <button
+        md-mini-fab
+        color="primary"
+        [disabled]="!info.started">
+      <md-icon
+          class="md-24"
+          aria-label="Start container"
+          (click)="emitDockerEvent('restart')">refresh</md-icon>
+    </button>
+    <button
+        md-mini-fab
+        color="warn"
+        [disabled]="info.started">
+      <md-icon
+          class="md-24"
+          aria-label="Stop container"
+          (click)="emitDockerEvent('stop')">stop</md-icon>
+    </button>
+  </md-card-actions>
+</md-card>

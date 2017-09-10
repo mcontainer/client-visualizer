@@ -14,10 +14,21 @@ import { DGraphService } from './services/dgraph.service';
 import { GraphContainerComponent } from './graph-container/graph-container.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToolbarComponent } from './toolbar/toolbar.component';
-import { MdToolbarModule, MdSidenavModule, MdCardModule, MdSnackBarModule, MdProgressBarModule } from '@angular/material';
-import {SseService} from './services/sse.service';
+import {
+  MdButtonModule,
+  MdCardModule,
+  MdIconModule,
+  MdProgressBarModule,
+  MdSidenavModule,
+  MdSnackBarModule,
+  MdToolbarModule,
+} from '@angular/material';
+import { SseService } from './services/sse.service';
 import { InfoComponent } from './info/info.component';
-import {StateService} from './services/state.service';
+import { StateService } from './services/state.service';
+import { NodeInfoComponent } from './info/node-info/node-info.component';
+import { DockerService } from './services/docker.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 
 @NgModule({
@@ -28,7 +39,8 @@ import {StateService} from './services/state.service';
     ...D3_DIRECTIVES,
     GraphContainerComponent,
     ToolbarComponent,
-    InfoComponent
+    InfoComponent,
+    NodeInfoComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,10 +51,13 @@ import {StateService} from './services/state.service';
     MdSidenavModule,
     MdCardModule,
     MdSnackBarModule,
-    MdProgressBarModule
+    MdProgressBarModule,
+    MdButtonModule,
+    MdIconModule,
+    FlexLayoutModule,
   ],
-  providers: [D3Service, DGraphService, SseService, StateService],
-  bootstrap: [AppComponent]
+  providers: [D3Service, DGraphService, SseService, StateService, DockerService,],
+  bootstrap: [AppComponent,]
 })
 export class AppModule {
 }
