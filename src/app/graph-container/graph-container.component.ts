@@ -28,7 +28,7 @@ export class GraphContainerComponent implements OnInit {
     const dGraphResponse = dGraphService.getContent();
 
     dGraphResponse.data.expand.forEach(node => {
-      this.nodes.push(new Node(node._uid_, node.name, '', '', '', ''));
+      this.nodes.push(new Node(node._uid_, node.name, '', '', 'test', '', 'ip test'));
     });
 
 
@@ -56,7 +56,7 @@ export class GraphContainerComponent implements OnInit {
     source
       .filter(graph => graph.action === 'NONE')
       .map(graph => {
-        const nodes = graph.payload.map(node => new Node(node.UID, node.Name, node.Id, node.Network, node.Service, node.host));
+        const nodes = graph.payload.map(node => new Node(node.UID, node.Name, node.Id, node.Network, node.Service, node.Host, node.Ip));
         const links = graph.payload
           .filter(node => node['Connected'] !== null)
           .map(node => node['Connected'].map(n => new Link(node.UID, n.UID, 3)));

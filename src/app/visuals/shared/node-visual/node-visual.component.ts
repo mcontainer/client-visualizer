@@ -15,13 +15,13 @@ import { Node } from '../../../d3';
       <svg:text
           class="node-name"
           [attr.font-size]="node.fontSize">
-        {{node.id}} - {{node.name}}
+        {{node.service}}
       </svg:text>
     </svg:g>
   `,
   styleUrls: ['./node-visual.component.css']
 })
-export class NodeVisualComponent implements OnInit{
+export class NodeVisualComponent implements OnInit {
   @Input('node') node: Node;
 
   ngOnInit(): void {

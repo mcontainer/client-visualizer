@@ -16,16 +16,18 @@ export class Node implements d3.SimulationNodeDatum {
   service: string;
   host: string;
   name: string;
+  ip: string;
   linkCount = 0;
   private _color: string;
 
-  constructor(id: number, name: string, containerID: string, network: string, service: string, host: string) {
+  constructor(id: number, name: string, containerID: string, network: string, service: string, host: string, ip: string) {
     this.id = id;
     this.name = name;
     this.containerID = containerID;
     this.network = network;
     this.service = service;
     this.host = host;
+    this.ip = ip;
   }
 
   normal = () => {
