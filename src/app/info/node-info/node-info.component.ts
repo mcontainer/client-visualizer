@@ -13,13 +13,13 @@ export class NodeInfoComponent implements OnInit {
   emitDockerEvent(type: string) {
     // TODO: add containerId to info
     switch (type) {
-      case "start":
+      case 'start':
         this.dockerService.startContainer(this.info.containerId);
         break;
-        case "restart":
+        case 'restart':
         this.dockerService.restartContainer(this.info.containerId);
         break;
-        case "stop":
+        case 'stop':
         this.dockerService.stopContainer(this.info.containerId);
         break;
     }

@@ -30,6 +30,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
   @Input('node$') node$: Rx.Observable<[Node[], Link[]]>;
+  @Input('del$') del$: Rx.Observable<string[]>;
 
   graph: ForceDirectedGraph;
   _options: { width, height } = {width: 800, height: 600};
@@ -51,6 +52,12 @@ export class GraphComponent implements OnInit, AfterViewInit {
       nodes.forEach(node => this.graph.addNode(node));
       links.forEach(link => this.graph.connectNodes(link));
     });
+
+    this
+      .del$
+      .subscribe(ids => {
+        ids.forEach(id => this.graph.removeNode(id));
+      });
 
     /** Binding change detection check on each tick
      * This along with an onPush change detection strategy should enforce checking only when relevant!

@@ -32,12 +32,22 @@ export class ForceDirectedGraph {
     }
   }
 
+  removeNode(id: string): void {
+    console.log(id);
+    const index = this.simulation.nodes().map(node => node.containerID).indexOf(id);
+    if (index > -1) {
+      this.simulation.nodes().splice(index, 1);
+      this.simulation.restart();
+    }
+  }
+
   addNode(n: Node): void {
     if (!this.exist(n.id)) {
-      n.color = this.fill(n.id.toString());
+      n.color = this.fill(n.service);
       this.nodes.push(n);
       this.nodeset.add(n.id);
       this.simulation.nodes(this.nodes);
+      this.simulation.restart();
     }
   }
 
@@ -50,7 +60,7 @@ export class ForceDirectedGraph {
       throw new Error('simulation was not initialized yet');
     }
 
-    this.nodes.forEach(node => node.color = this.fill(node.id.toString()));
+    this.nodes.forEach(node => node.color = this.fill(node.service));
 
     this.simulation.nodes(this.nodes);
   }

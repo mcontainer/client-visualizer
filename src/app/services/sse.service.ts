@@ -11,7 +11,7 @@ export class SseService {
 
   public createSSE(url: string): Rx.Observable<any> {
     return Rx.Observable.create((observer) => {
-      const sse = new EventSourcePolyfill(url, {withCredentials: true});
+      const sse = new EventSourcePolyfill(url, {withCredentials: false});
       sse.onopen = () => this.stateService.dispatchWithoutPayload('NOT_LOADING');
       sse.onmessage = event => observer.next(JSON.parse(event.data));
       sse.onerror = error => observer.error(error);
