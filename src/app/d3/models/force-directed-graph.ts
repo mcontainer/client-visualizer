@@ -1,5 +1,5 @@
-import { EventEmitter } from '@angular/core';
-import { Link, Node } from './';
+import {EventEmitter} from '@angular/core';
+import {Link, Node} from './';
 import * as d3 from 'd3';
 
 const FORCES = {
@@ -33,12 +33,26 @@ export class ForceDirectedGraph {
   }
 
   removeNode(id: string): void {
-    console.log(id);
     const index = this.simulation.nodes().map(node => node.containerID).indexOf(id);
     if (index > -1) {
+      const node = this.simulation.nodes()[index];
+      this.removeLink(node.id);
       this.simulation.nodes().splice(index, 1);
       this.simulation.restart();
     }
+  }
+
+  removeLink(id: number) {
+    const filtered = this
+      .links
+      .filter(l => (<Node>l.target).id === id || (<Node>l.source).id === id);
+    filtered.forEach(link => {
+      const i = this.links.indexOf(link);
+      if (i > -1) {
+        this.links.splice(i, 1);
+      }
+    });
+    this.simulation.alphaTarget(0.1).restart();
   }
 
   addNode(n: Node): void {

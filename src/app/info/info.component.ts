@@ -17,7 +17,6 @@ export class InfoComponent implements OnInit {
   ngOnInit() {
 
     this.stateService.store$.subscribe(state => {
-      console.log(state)
       const { info, clusterSize } = state;
       this.info = info;
       this.size = clusterSize;

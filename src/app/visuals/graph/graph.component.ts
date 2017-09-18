@@ -53,6 +53,10 @@ export class GraphComponent implements OnInit, AfterViewInit {
       links.forEach(link => this.graph.connectNodes(link));
     });
 
+    setTimeout(() => {
+      this.graph.removeLink(1);
+    }, 4000);
+
     this
       .del$
       .subscribe(ids => {
