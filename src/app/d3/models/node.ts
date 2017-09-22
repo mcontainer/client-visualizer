@@ -18,6 +18,7 @@ export class Node implements d3.SimulationNodeDatum {
   name: string;
   ip: string;
   linkCount = 0;
+  strokeWidth = 2;
   private _color: string;
 
   constructor(id: number, name: string, containerID: string, network: string, service: string, host: string, ip: string) {

@@ -7,6 +7,7 @@ import { Node } from '../../../d3';
     <svg:g [attr.transform]="'translate(' + node.x + ',' + node.y + ')'">
       <svg:circle
           class="node"
+          [ngStyle]="{'stroke-width': node.strokeWidth}"
           [attr.fill]="node.color"
           cx="0"
           cy="0"

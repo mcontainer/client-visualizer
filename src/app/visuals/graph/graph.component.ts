@@ -7,7 +7,7 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import { D3Service, ForceDirectedGraph, Node, Link } from '../../d3';
+import {D3Service, ForceDirectedGraph, Node, Link} from '../../d3';
 import * as Rx from 'rxjs/Rx';
 
 @Component({
@@ -18,8 +18,10 @@ import * as Rx from 'rxjs/Rx';
       <g [zoomableOf]="svg">
         <g [link]="link" *ngFor="let link of links"></g>
         <g [node]="node" *ngFor="let node of nodes"
-           [draggableNode]="node" [draggableInGraph]="graph"
+           [draggableNode]="node"
+           [draggableInGraph]="graph"
            appClick [node]="node"
+           appHover [node]="node"
         ></g>
       </g>
     </svg>
@@ -49,9 +51,9 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this
       .node$
       .subscribe(([nodes, links]) => {
-      nodes.forEach(node => this.graph.addNode(node));
-      links.forEach(link => this.graph.connectNodes(link));
-    });
+        nodes.forEach(node => this.graph.addNode(node));
+        links.forEach(link => this.graph.connectNodes(link));
+      });
 
     this
       .del$

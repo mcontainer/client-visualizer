@@ -5,7 +5,7 @@ import * as d3 from 'd3';
 const FORCES = {
   LINKS: 1 / 50,
   COLLISION: 1,
-  CHARGE: -5
+  CHARGE: -20
 };
 
 export class ForceDirectedGraph {
@@ -16,10 +16,12 @@ export class ForceDirectedGraph {
   public links: Link[] = [];
   private nodeset: Set<number> = new Set();
   private linkset: Set<number> = new Set();
+  private ui$: EventEmitter<any>;
 
-  constructor(nodes, links, options: { width, height }) {
+  constructor(nodes, links, options: { width, height }, uiStream: EventEmitter<any>) {
     this.nodes = nodes;
     this.links = links;
+    this.ui$ = uiStream;
     this.initSimulation(options);
   }
 
@@ -116,6 +118,30 @@ export class ForceDirectedGraph {
 
       this.initNodes();
       this.initLinks();
+
+      this.ui$.subscribe(payload => {
+        const {action, data} = payload;
+        if (action === 'on') {
+          const nodesid = new Set();
+          this.links.forEach((l: any) => {
+            if (l.target.id === data.id || l.source.id === data.id) {
+              l.strokeWidth = 6;
+              nodesid.add(l.target.id);
+              nodesid.add(l.source.id);
+            }
+          });
+          this.nodes.forEach(n => {
+            if (nodesid.has(n.id)) {
+              n.strokeWidth = 6;
+            }
+          });
+        } else {
+          this.links.forEach(l => l.strokeWidth = 2);
+          this.nodes.forEach(n => n.strokeWidth = 2);
+        }
+        this.simulation.alphaTarget(0.1).restart();
+      });
+
     }
 
     /** Updating the central force of the simulation */

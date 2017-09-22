@@ -1,23 +1,26 @@
-import { Injectable } from '@angular/core';
-import { ForceDirectedGraph, Link, Node } from './';
+import {EventEmitter, Injectable} from '@angular/core';
+import {ForceDirectedGraph, Link, Node} from './';
 import * as d3 from 'd3';
 import {StateService} from '../services/state.service';
 
 @Injectable()
 export class D3Service {
 
+  static ui$: EventEmitter<any> = new EventEmitter();
+
   /** The interactable graph we will simulate in this article
    * This method does not interact with the document, purely physical calculations with d3
    */
   static getForceDirectedGraph(nodes: Node[], links: Link[], options: { width, height }) {
-    return new ForceDirectedGraph(nodes, links, options);
+    return new ForceDirectedGraph(nodes, links, options, D3Service.ui$);
   }
 
 
   /** This service will provide methods to enable user interaction with elements
    * while maintaining the d3 simulations physics
    */
-  constructor(private stateService: StateService) { }
+  constructor(private stateService: StateService) {
+  }
 
   /** A method to bind a pan and zoom behaviour to an svg element */
   applyZoomableBehaviour(svgElement, containerElement) {
@@ -41,9 +44,21 @@ export class D3Service {
     })
   }
 
+  applyOnMouseBehavior(element, node: Node) {
+    const d3element = d3.select(element);
+    d3element.on('mouseover', _ => {
+      D3Service.ui$.emit({action: 'on', data: node});
+    });
+
+    d3element.on('mouseout', _ => {
+      D3Service.ui$.emit({action: 'off'});
+    });
+  }
+
   /** A method to bind a draggable behaviour to an svg element */
   applyDraggableBehaviour(element, node: Node, graph: ForceDirectedGraph) {
     const d3element = d3.select(element);
+
     function started() {
       if (!d3.event.active) {
         graph.simulation.alphaTarget(0.3).restart();

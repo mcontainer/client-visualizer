@@ -29,6 +29,7 @@ import { StateService } from './services/state.service';
 import { NodeInfoComponent } from './info/node-info/node-info.component';
 import { DockerService } from './services/docker.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HoverDirective } from './d3/directives/hover.directive';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ToolbarComponent,
     InfoComponent,
     NodeInfoComponent,
+    HoverDirective,
   ],
   imports: [
     BrowserModule,
