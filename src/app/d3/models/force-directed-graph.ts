@@ -95,7 +95,6 @@ export class ForceDirectedGraph {
   }
 
   private findLinks(nodes: Node[]): string {
-    console.log(this.groupLink)
     for (let i = 0; i < nodes.length; ++i) {
       for (let j = 1; j < nodes.length; ++j) {
         const s = nodes[i].id;
@@ -154,6 +153,7 @@ export class ForceDirectedGraph {
     this.simulation.force('links',
       d3.forceLink(this.links)
         .id(d => d['id'])
+        .distance(300)
         .strength(FORCES.LINKS)
     );
   }
@@ -168,11 +168,11 @@ export class ForceDirectedGraph {
       const ticker = this.ticker;
 
       this.simulation = d3.forceSimulation()
-        .force(
-          'charge',
-          d3.forceManyBody().strength(-600)
-          // d3.forceManyBody().strength(d => FORCES.CHARGE * d['r'])
-        )
+        // .force(
+        //   'charge',
+        //   // d3.forceManyBody().strength(-600)
+        //   d3.forceManyBody().strength(d => FORCES.CHARGE * d['r'])
+        // )
         .force(
           'collide',
           d3.forceCollide().strength(FORCES.COLLISION).radius(d => d['r'] + 5).iterations(2)
