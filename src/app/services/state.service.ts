@@ -8,6 +8,8 @@ interface IState {
   isLoading: boolean;
   info: Node | null;
   clusterSize: number;
+  group: string;
+  isGrouped: boolean;
 }
 
 @Injectable()
@@ -17,7 +19,9 @@ export class StateService {
     isOpen: false,
     isLoading: true,
     info: null,
-    clusterSize: 0
+    clusterSize: 0,
+    group: '',
+    isGrouped: false
   };
 
   action$: Rx.BehaviorSubject<any>;
@@ -34,8 +38,16 @@ export class StateService {
         return {...state, isLoading: false};
       case 'INFO':
         return {...state, info: action.payload};
-      case 'SIZE':
-        return {...state, clusterSize: action.payload};
+      case 'INCREMENT_SIZE':
+        return {...state, clusterSize: state.clusterSize + 1};
+      case 'DECREMENT_SIZE':
+        return {...state, clusterSize: state.clusterSize - 1};
+      case 'GROUPED':
+        return {...state, isGrouped: action.payload};
+      case 'GROUP_ADD':
+        return {...state, group: action.payload};
+      case 'GROUP_DEL':
+        return {...state, group: ''};
       default:
         return state;
     }

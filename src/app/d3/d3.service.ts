@@ -39,8 +39,12 @@ export class D3Service {
   applyOnClickBehavior(element, node: Node) {
     const d3element = d3.select(element);
     d3element.on('click', _ => {
-      this.stateService.dispatch('OPEN', true);
-      this.stateService.dispatch('INFO', node);
+      if (d3.event.ctrlKey) {
+        this.stateService.dispatch('GROUP_ADD', node.service);
+      } else {
+        this.stateService.dispatch('OPEN', true);
+        this.stateService.dispatch('INFO', node);
+      }
     })
   }
 

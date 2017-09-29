@@ -10,7 +10,7 @@ export class Node implements d3.SimulationNodeDatum {
   fx?: number | null;
   fy?: number | null;
 
-  id: number;
+  id: string;
   containerID: string;
   network: string;
   service: string;
@@ -21,7 +21,7 @@ export class Node implements d3.SimulationNodeDatum {
   strokeWidth = 2;
   private _color: string;
 
-  constructor(id: number, name: string, containerID: string, network: string, service: string, host: string, ip: string) {
+  constructor(id: string, name: string, containerID: string, network: string, service: string, host: string, ip: string) {
     this.id = id;
     this.name = name;
     this.containerID = containerID;

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import {D3Service, ForceDirectedGraph, Node, Link} from '../../d3';
 import * as Rx from 'rxjs/Rx';
+import {StateService} from '../../services/state.service';
 
 @Component({
   selector: 'app-graph',
@@ -31,8 +32,12 @@ import * as Rx from 'rxjs/Rx';
 export class GraphComponent implements OnInit, AfterViewInit {
   @Input('nodes') nodes;
   @Input('links') links;
-  @Input('node$') node$: Rx.Observable<[Node[], Link[]]>;
-  @Input('del$') del$: Rx.Observable<string[]>;
+  @Input('nodeLink$') nodeLink$: Rx.Observable<[Node[], Link[]]>;
+  @Input('node$') node$: Rx.Observable<Node>;
+  @Input('link$') link$: Rx.Observable<Link>;
+  @Input('del$') del$: Rx.Observable<string>;
+
+  isGrouped = false;
 
   graph: ForceDirectedGraph;
   _options: { width, height } = {width: 800, height: 600};
@@ -42,23 +47,40 @@ export class GraphComponent implements OnInit, AfterViewInit {
     this.graph.initSimulation(this.options);
   }
 
-  constructor(private d3Service: D3Service, private ref: ChangeDetectorRef) {
+  constructor(private d3Service: D3Service, private ref: ChangeDetectorRef, private stateService: StateService) {
   }
 
   ngOnInit() {
     /** Receiving an initialized simulated graph from our custom d3 service */
     this.graph = D3Service.getForceDirectedGraph(this.nodes, this.links, this.options);
+
+    this.node$.subscribe(node => this.graph.addNode(node));
+
+    this.link$.subscribe(link => this.graph.connectNodes(link));
+
     this
-      .node$
+      .nodeLink$
       .subscribe(([nodes, links]) => {
-        nodes.forEach(node => this.graph.addNode(node));
-        links.forEach(link => this.graph.connectNodes(link));
+        if (!this.isGrouped) {
+          nodes.forEach(node => this.graph.addNode(node));
+          links.forEach(link => this.graph.connectNodes(link));
+        }
       });
 
     this
       .del$
-      .subscribe(ids => {
-        ids.forEach(id => this.graph.removeNode(id));
+      .subscribe(id => this.graph.removeNode(id));
+
+    this
+      .stateService
+      .store$
+      .subscribe(state => {
+        const {group} = state;
+        if (group !== '') {
+          this.graph.collapse(group);
+          this.isGrouped = !this.isGrouped;
+          this.stateService.dispatchWithoutPayload('GROUP_DEL');
+        }
       });
 
     /** Binding change detection check on each tick
