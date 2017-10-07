@@ -74,6 +74,10 @@ export class NodeLogsContainerComponent implements OnInit, OnChanges, OnDestroy 
     this.source
       .takeUntil(this.ngUnsubscribe)
       .subscribe(logLine => {
+        if (this.logs.length > 100) {
+          // TODO(archangelx360): use observable mecanism instead of this ugly HOTFIX
+          this.logs.shift();
+        }
         this.logs.push(logLine);
         if (this.autoscroll) {
           // TODO(archangelx360): enhance performance here, scrolling each line could be a bit hardcore
