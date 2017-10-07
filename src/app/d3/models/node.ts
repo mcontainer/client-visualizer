@@ -1,6 +1,6 @@
-import APP_CONFIG from '../../app.config';
+import { NodeInformation } from '../../models/node-information';
 
-export class Node implements d3.SimulationNodeDatum {
+export class Node extends NodeInformation implements d3.SimulationNodeDatum {
   // optional - defining optional implementation properties - required for relevant typing assistance
   index?: number;
   x?: number;
@@ -9,26 +9,12 @@ export class Node implements d3.SimulationNodeDatum {
   vy?: number;
   fx?: number | null;
   fy?: number | null;
-
-  id: string;
-  containerID: string;
-  network: string;
-  service: string;
-  host: string;
-  name: string;
-  ip: string;
   linkCount = 0;
   strokeWidth = 2;
   private _color: string;
 
   constructor(id: string, name: string, containerID: string, network: string, service: string, host: string, ip: string) {
-    this.id = id;
-    this.name = name;
-    this.containerID = containerID;
-    this.network = network;
-    this.service = service;
-    this.host = host;
-    this.ip = ip;
+    super(id, name, containerID, network, service, host, ip)
   }
 
   normal = () => {

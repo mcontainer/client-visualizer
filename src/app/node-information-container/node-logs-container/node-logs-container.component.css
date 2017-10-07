@@ -1,0 +1,23 @@
+.red {
+    color: red;
+}
+
+pre {
+    border: 1px solid gainsboro;
+    height: 250px; /* FIXME: no hardcoded heights please */
+    overflow: auto;
+}
+
+.clickable-icon {
+    cursor: pointer;
+}
+
+.sync-container {
+    position: absolute;
+    right: 30px;
+    padding-top: 5px;
+}
+
+.disabled {
+    color: rgba(0, 0, 0, .54);
+}

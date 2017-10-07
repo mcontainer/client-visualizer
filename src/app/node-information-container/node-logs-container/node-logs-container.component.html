@@ -1,0 +1,23 @@
+<md-card>
+  <md-card-title>Container logs</md-card-title>
+  <md-card-subtitle>ID: {{info.containerID}}</md-card-subtitle>
+  <md-card-subtitle>Host: {{info.host}} (Resolved as {{resolvedHost}})</md-card-subtitle>
+  <md-card-content>
+    <span class="sync-container">
+      <md-icon
+          class="clickable-icon"
+          [ngClass]="{'disabled': !autoscroll}"
+          (click)="toggleAutoscroll()"
+          mdTooltip="Toggle autoscroll" [mdTooltipPosition]="'before'"
+          aria-label="Toggle autoscroll">vertical_align_bottom</md-icon>
+      <md-icon
+          class="clickable-icon"
+          (click)="emitLogRequest()"
+          mdTooltip="Re-open log channel" [mdTooltipPosition]="'before'"
+          aria-label="Ask for logs">sync</md-icon>
+    </span>
+    <pre #logContainer>
+<span *ngFor="let log of logs" [ngClass]="{'red': log.isErrorMessage}">{{log.message}}</span>
+  </pre>
+  </md-card-content>
+</md-card>

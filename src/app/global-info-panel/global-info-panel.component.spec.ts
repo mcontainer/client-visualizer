@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InfoComponent } from './info.component';
+import { GlobalInfoPanelComponent } from './global-info-panel.component';
 
-describe('InfoComponent', () => {
-  let component: InfoComponent;
-  let fixture: ComponentFixture<InfoComponent>;
+describe('GlobalInfoPanelComponent', () => {
+  let component: GlobalInfoPanelComponent;
+  let fixture: ComponentFixture<GlobalInfoPanelComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ InfoComponent ]
+      declarations: [GlobalInfoPanelComponent]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoComponent);
+    fixture = TestBed.createComponent(GlobalInfoPanelComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

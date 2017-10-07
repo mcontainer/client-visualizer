@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Link, Node} from '../d3';
-import {DGraphService} from '../services/dgraph.service';
-import {SseService} from '../services/sse.service';
+import { Component, OnInit } from '@angular/core';
+import { Link, Node } from '../d3';
+import { DGraphService } from '../services/dgraph.service';
+import { SseService } from '../services/sse.service';
 import * as Rx from 'rxjs/Rx';
-import {MdSnackBar} from '@angular/material';
-import {StateService} from '../services/state.service';
+import { MdSnackBar } from '@angular/material';
+import { StateService } from '../services/state.service';
 
 @Component({
   selector: 'app-graph-container',
@@ -69,7 +69,7 @@ export class GraphContainerComponent implements OnInit {
           .forEach(links => links.forEach(link => this.linkStream.next(link)));
       });
 
-    const source = this.sseService.createSSE('http://localhost:1234/streaming');
+    const source = this.sseService.createSSE('http://172.17.8.103:1234/streaming');
 
 
     source

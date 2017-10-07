@@ -1,12 +1,11 @@
 <app-toolbar></app-toolbar>
 
-<md-sidenav-container>
+<!--<md-sidenav-container>
+  <app-global-info-panel></app-global-info-panel>
+</md-sidenav-container>-->
 
-
-  <md-sidenav mode="side" [opened]="true" class="mat-elevation-z5">
-    <app-info></app-info>
-  </md-sidenav>
-
-  <app-graph-container></app-graph-container>
-</md-sidenav-container>
-
+<div fxLayout="column" fxLayoutAlign="start stretch">
+  <app-graph-container fxFlex="50"></app-graph-container>
+  <hr/>
+  <app-node-information-container fxFlex="50"></app-node-information-container>
+</div>

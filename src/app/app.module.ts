@@ -21,15 +21,21 @@ import {
   MdProgressBarModule,
   MdSidenavModule,
   MdSnackBarModule,
+  MdTabsModule,
   MdToolbarModule,
+  MdTooltipModule,
 } from '@angular/material';
 import { SseService } from './services/sse.service';
-import { InfoComponent } from './info/info.component';
+import { GlobalInfoPanelComponent } from './global-info-panel/global-info-panel.component';
 import { StateService } from './services/state.service';
-import { NodeInfoComponent } from './info/node-info/node-info.component';
+import { NodeInfoComponent } from './node-information-container/node-info/node-info.component';
 import { DockerService } from './services/docker.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HoverDirective } from './d3/directives/hover.directive';
+import { NodeInformationContainerComponent } from './node-information-container/node-information-container.component';
+import { NodeLogsContainerComponent } from './node-information-container/node-logs-container/node-logs-container.component';
+import { HttpClientModule } from '@angular/common/http';
+import { HostResolverService } from './services/host-resolver.service';
 
 
 @NgModule({
@@ -40,9 +46,11 @@ import { HoverDirective } from './d3/directives/hover.directive';
     ...D3_DIRECTIVES,
     GraphContainerComponent,
     ToolbarComponent,
-    InfoComponent,
+    GlobalInfoPanelComponent,
     NodeInfoComponent,
     HoverDirective,
+    NodeInformationContainerComponent,
+    NodeLogsContainerComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,10 +64,22 @@ import { HoverDirective } from './d3/directives/hover.directive';
     MdProgressBarModule,
     MdButtonModule,
     MdIconModule,
+    MdTabsModule,
+    MdTooltipModule,
     FlexLayoutModule,
+    HttpClientModule,
   ],
-  providers: [D3Service, DGraphService, SseService, StateService, DockerService,],
-  bootstrap: [AppComponent,]
+  providers: [
+    D3Service,
+    DGraphService,
+    SseService,
+    StateService,
+    DockerService,
+    HostResolverService,
+  ],
+  bootstrap: [
+    AppComponent,
+  ]
 })
 export class AppModule {
 }

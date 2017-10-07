@@ -1,0 +1,16 @@
+<div *ngIf="info != null; else placeholder_content">
+  <md-tab-group>
+    <md-tab label="Information">
+      <app-node-info [info]="info"></app-node-info>
+    </md-tab>
+    <md-tab label="Logs">
+      <app-node-logs-container [info]="info"></app-node-logs-container>
+    </md-tab>
+  </md-tab-group>
+</div>
+
+<ng-template #placeholder_content>
+  <div>
+    <p>Show node information and logs by clicking it !</p>
+  </div>
+</ng-template>

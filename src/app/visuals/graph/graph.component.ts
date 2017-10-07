@@ -7,9 +7,9 @@ import {
   Input,
   OnInit
 } from '@angular/core';
-import {D3Service, ForceDirectedGraph, Node, Link} from '../../d3';
+import { D3Service, ForceDirectedGraph, Link, Node } from '../../d3';
 import * as Rx from 'rxjs/Rx';
-import {StateService} from '../../services/state.service';
+import { StateService } from '../../services/state.service';
 
 @Component({
   selector: 'app-graph',
@@ -101,7 +101,7 @@ export class GraphComponent implements OnInit, AfterViewInit {
     return this._options = {
       // FIXME: hardcoded reduction
       width: window.innerWidth - 250 - 16,
-      height: window.innerHeight - 70
+      height: window.innerHeight - 70 - 470
     };
   }
 }
