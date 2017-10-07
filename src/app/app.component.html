@@ -4,8 +4,7 @@
   <app-global-info-panel></app-global-info-panel>
 </md-sidenav-container>-->
 
-<div fxLayout="column" fxLayoutAlign="start stretch">
-  <app-graph-container fxFlex="50"></app-graph-container>
-  <hr/>
+<div class="main-container" fxLayout="column" fxLayoutAlign="start stretch">
+  <app-graph-container fxFlex="50" #graphContainer></app-graph-container>
   <app-node-information-container fxFlex="50"></app-node-information-container>
 </div>

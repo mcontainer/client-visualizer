@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Link, Node } from '../d3';
 import { DGraphService } from '../services/dgraph.service';
 import { SseService } from '../services/sse.service';
@@ -23,16 +23,19 @@ export class GraphContainerComponent implements OnInit {
   node$: Rx.Observable<Node> = this.nodeStream.asObservable();
   link$: Rx.Observable<Link> = this.linkStream.asObservable();
   del$: Rx.Observable<string> = this.delStream.asObservable();
+  height: number;
+  width: number;
 
   constructor(private dGraphService: DGraphService,
               private sseService: SseService,
               private snackbar: MdSnackBar,
-              private stateService: StateService) {
-
+              private stateService: StateService,
+              el: ElementRef) {
+    this.height = el.nativeElement.offsetHeight;
+    this.width = el.nativeElement.offsetWidth;
   }
 
   ngOnInit() {
-
     // const dGraphResponse = this.dGraphService.getContent();
     // let i = -1;
     // const nodesTMP = dGraphResponse.data.expand.map(node => {

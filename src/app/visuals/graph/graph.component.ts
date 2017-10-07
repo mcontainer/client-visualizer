@@ -36,6 +36,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
   @Input('node$') node$: Rx.Observable<Node>;
   @Input('link$') link$: Rx.Observable<Link>;
   @Input('del$') del$: Rx.Observable<string>;
+  @Input('height') height: number;
+  @Input('width') width: number;
 
   isGrouped = false;
 
@@ -99,9 +101,8 @@ export class GraphComponent implements OnInit, AfterViewInit {
 
   get options() {
     return this._options = {
-      // FIXME: hardcoded reduction
-      width: window.innerWidth - 250 - 16,
-      height: window.innerHeight - 70 - 470
+      width: this.width,
+      height: 490
     };
   }
 }

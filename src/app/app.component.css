@@ -2,3 +2,7 @@ md-sidenav {
   width: 250px;
   background-color: #eee;
 }
+
+.main-container {
+    height: 980px;
+}

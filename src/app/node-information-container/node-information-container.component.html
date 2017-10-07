@@ -1,3 +1,4 @@
+<hr/>
 <div *ngIf="info != null; else placeholder_content">
   <md-tab-group>
     <md-tab label="Information">
@@ -10,7 +11,7 @@
 </div>
 
 <ng-template #placeholder_content>
-  <div>
-    <p>Show node information and logs by clicking it !</p>
+  <div fxLayout="column" fxFill="100" fxFlexAlign="center center">
+    <span class="placeholder" fxFlexOffset="10">Show node information and logs by clicking it !</span>
   </div>
 </ng-template>
